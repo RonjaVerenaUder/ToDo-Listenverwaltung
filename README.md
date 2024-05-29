@@ -29,7 +29,7 @@ Von Ronja-Verena Uder und Lukas Gedrat
 
 TODO
 # IPs 
-Raspberry PI: 192.168.24.183
-Gateway: 192.168.24.254
-Dns: 192.168.24.254
-
+Raspberry PI: 192.168.24.183  
+Gateway: 192.168.24.254  
+Dns: 192.168.24.254  
+# TODO aktuelles Python Dokument hochladen
