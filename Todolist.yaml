@@ -23,7 +23,7 @@ paths:
       parameters:
         - name: list_id
           in: path
-          description: list id
+          description: list id of searched list
           required: true
           schema:
             type: string
