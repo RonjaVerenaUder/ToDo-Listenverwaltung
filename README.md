@@ -25,9 +25,32 @@ Von Ronja-Verena Uder und Lukas Gedrat
    Dies erreicht man mit folgendem Befehl: (Achtung: Hierdurch wird die Verbindung getrennt und es muss sich per ssh über die neue IP verbunden werden.)  
    `nmcli -p connection show "Wired connection 1"`
 
-# Anlegen von Benutzern auf Raspberry Pi
+# Anlegen von Benutzern auf Raspberry Pi  
+1. Neuen Benutzer anlegen  
 
-TODO
+   -m steht dabei  für user mit Home-Verzeichnis anlegen  
+   Wir wollen sowohl willi als auch fernzugriff anlegen  
+   `useradd -m willi`
+   `useradd -m fernzugriff`
+2. Neuen benutzern ein Passwort zuweisen 
+
+   Nach eingabe dieses Befehls muss das Passwort zweimal unsichtbar eingegeben werden  
+   `passwd willi` (wir haben willi als Passwort gewählt)
+   `passwd fernzugriff` (hier haben wir fernzugriff als Passwort gewählt)
+3. Gruppen zuweisen 
+
+   Wir weisen willi der Gruppe users zu:
+   `usermod -g users willi` (-g steht für die Haupt-Gruppe des Benutzers )  
+   Und fernzugriff der Gruppe sudo  
+   `usermod -aG sudo fernzugriff` (-a muss mit -G geführt werden, da der Nutzer sonst aus allen anderen Gruppen entfernt wird und dadurch unter anderem aus der Gruppe admin fliegen kann und dann root rechte verlieren würde)  
+4. Nur fernzugriff soll ssh-Rechte besitzen  
+
+   Um sciherzustellen, dass nur der user 'fernzugriff' per ssh auf den Raspberry-Pi zugreifen kann, müssen wir die config-Datei des ssh-daemons anpassen. Dort können wir mithilfe des Schlüsselworts 'AllowUsers' bestimmten Benutzer ssh Rechte exklusiv zuteilen. Alle nicht hier gelisteten Benutzer dürfen dann nicht mehr per ssh zugreifen.  
+   Der zum öffnen der datei für den ssh Daemon lautet:  
+   `sshd_config`  
+   In der config Datei dann 'ferzugriff' als Benutzer hinzufügen:  
+   `AllowUsers fernzugriff`  
+
 # IPs 
 Raspberry PI: 192.168.24.183  
 Gateway: 192.168.24.254  
