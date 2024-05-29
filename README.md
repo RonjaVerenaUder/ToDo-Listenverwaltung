@@ -35,13 +35,13 @@ Von Ronja-Verena Uder und Lukas Gedrat
 2. Neuen benutzern ein Passwort zuweisen 
 
    Nach eingabe dieses Befehls muss das Passwort zweimal unsichtbar eingegeben werden  
-   `sudo passwd willi` (wir haben willi als Passwort gewählt)
+   `sudo passwd willi` (wir haben willi als Passwort gewählt)  
    `sudo passwd fernzugriff` (hier haben wir fernzugriff als Passwort gewählt)
 3. Gruppen zuweisen 
 
-   Wir weisen willi der Gruppe users zu:
+   Wir weisen 'willi' der Gruppe users zu:  
    `sudo usermod -g users willi` (-g steht für die Haupt-Gruppe des Benutzers )  
-   Und fernzugriff der Gruppe sudo  
+   Und wir weisen 'fernzugriff' der Gruppe sudo zu:  
    `sudo usermod -aG sudo fernzugriff` (-a muss mit -G geführt werden, da der Nutzer sonst aus allen anderen Gruppen entfernt wird und dadurch unter anderem aus der Gruppe admin fliegen kann und dann root rechte verlieren würde)  
 4. Nur fernzugriff soll ssh-Rechte besitzen  
 
