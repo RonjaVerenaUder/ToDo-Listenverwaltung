@@ -75,6 +75,13 @@ paths:
         - Listenverwaltung
       summary: Updates a existing List
       operationId: updateList
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        description: ID of the list
+        schema:
+          type: string
       requestBody:
         description: updates a list
         content:
