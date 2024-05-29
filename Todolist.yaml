@@ -39,6 +39,9 @@ paths:
         404:
           description: Invalid list id
           content: {}
+        429:
+          description: Too Many Requests
+          content: {}
         500:
           description: List could not be updated
           content: {}
@@ -60,6 +63,9 @@ paths:
           content: {}
         404:
           description: Invalid list id
+          content: {}
+        429:
+          description: Too Many Requests
           content: {}
         500:
           description: Internal Server Error
@@ -86,6 +92,9 @@ paths:
         404:
           description: Id does not exist
           content: {}
+        429:
+          description: Too Many Requests
+          content: {}
         500: 
           description: Internal Server Error
           content: {} 
@@ -111,6 +120,9 @@ paths:
                 $ref: '#/components/schemas/TodoList'
         500:
           description: List could not be added
+          content: {}
+        429:
+          description: Too Many Requests
           content: {}
         400:
           description: Data invalid
@@ -147,6 +159,9 @@ paths:
           content: {}
         404:
           description: ListId does not exist
+          content: {}
+        429:
+          description: Too Many Requests
           content: {}  
         400:
           description: Data not valid
@@ -188,6 +203,9 @@ paths:
         404:
           description: EntryId or List Id does not exist
           content: {}
+        429:
+          description: Too Many Requests
+          content: {}
         500:
           description: could not update
           content: {}
@@ -216,6 +234,9 @@ paths:
         404:
           description: Invalid list id or invalid item id
           content: {}
+        429:
+          description: Too Many Requests
+          content: {}
         500:
           description: Item could not be deleted
           content: {}
@@ -234,6 +255,9 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/AllLists"     
+        429:
+          description: Too Many Requests
+          content: {}
         500:
           description: Lists could not be received
           content: {}
