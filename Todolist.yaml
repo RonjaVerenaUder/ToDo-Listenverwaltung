@@ -1,0 +1,285 @@
+openapi: 3.0.1
+info:
+  title: Todo-Listen-Verwaltung
+  description: ""
+  contact:
+    email: uder.ronja@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 0.1.0
+servers:
+- url: http://127.0.0.1:5000/
+tags:
+- name: Listenverwaltung
+paths:
+  /list/{list_id}:
+    get:
+      tags:
+      - Listenverwaltung
+      summary: Get all items from list
+      description: Returns all Items from a list
+      operationId: getList
+      parameters:
+        - name: list_id
+          in: path
+          description: list id
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: List item returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/TodoEntry'
+        404:
+          description: Invalid list id
+          content: {}
+        500:
+          description: List could not be updated
+          content: {}
+    delete:
+      tags:
+      - Listenverwaltung
+      summary: Delete a list
+      operationId: deleteList
+      parameters:
+      - name: list_id
+        in: path
+        description: list id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: List was deleted
+          content: {}
+        404:
+          description: Invalid list id
+          content: {}
+        500:
+          description: Internal Server Error
+          content: {}
+    patch:
+      tags:
+        - Listenverwaltung
+      summary: Updates a existing List
+      operationId: updateList
+      requestBody:
+        description: updates a list
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToDoListName"
+        required: true
+      responses:
+        200:
+          description: List updated
+          content:
+            application/json:
+              schema: 
+                $ref: "#/components/schemas/TodoEntry"
+        404:
+          description: Id does not exist
+          content: {}
+        500: 
+          description: Internal Server Error
+          content: {} 
+  /list:
+    post:
+      tags:
+      - Listenverwaltung
+      summary: Add new list
+      operationId: addList
+      requestBody:
+        description: list object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToDoListName'
+        required: true
+      responses:
+        201:
+          description: List added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoList'
+        500:
+          description: List could not be added
+          content: {}
+        400:
+          description: Data invalid
+          content: {}
+  /list/{list_id}/item:
+    post:
+      tags:
+      - Listenverwaltung
+      summary: Adds a new Entry to a list
+      operationId: addEntry
+      parameters:
+      - name: list_id
+        in: path
+        description: list id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: create a new Entry
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTodoEntry'
+        required: true
+      responses:
+        201:
+          description: Entry added
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoEntry'
+        500:
+          description: Entry could not be added
+          content: {}
+        404:
+          description: ListId does not exist
+          content: {}  
+        400:
+          description: Data not valid
+          content: {}   
+      x-codegen-request-body-name: body   
+  /list/{list_id}/item/{item_id}:
+    patch:
+      tags:
+      - Listenverwaltung
+      summary: Updates an Entry
+      operationId: updateEntry
+      parameters:
+      - name: list_id
+        in: path
+        required: true
+        description: ID of the list
+        schema:
+          type: string
+      - name: item_id
+        in: path       
+        required: true
+        description: ID of the item
+        schema:
+          type: string
+      requestBody:
+        description: updates an Entry
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTodoEntry'
+        required: true
+      responses:
+        200: 
+          description: Entry updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TodoEntry'
+        404:
+          description: EntryId or List Id does not exist
+          content: {}
+        500:
+          description: could not update
+          content: {}
+    delete:
+      tags:
+        - Itemverwaltung
+      summary: Delets Entry of an existing list
+      operationId: deleteItem
+      parameters:
+      - name: list_id
+        in: path
+        description: list id
+        required: true
+        schema:
+          type: string
+      - name: item_id
+        in: path
+        description: item id
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: Item was deleted
+          content: {}
+        404:
+          description: Invalid list id or invalid item id
+          content: {}
+        500:
+          description: Item could not be deleted
+          content: {}
+  /lists:
+    get:
+      tags:
+        - Listenverwaltung
+      summary: List of all Lists 
+      operationId: allLists
+      responses:
+        200:
+          description: All Lists
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AllLists"     
+        500:
+          description: Lists could not be received
+          content: {}
+components:
+  schemas:
+    TodoList:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+    ToDoListName:
+      type: object
+      properties: 
+        name: 
+         type: string
+    TodoEntry:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+        description:
+          type: string
+        user_id:
+          type: string
+          format: uuid
+        list_id:
+          type: string
+          format: uuid
+    NewTodoEntry:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+    AllLists:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        listname:
+          type: string
