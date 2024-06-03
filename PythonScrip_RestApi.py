@@ -9,7 +9,7 @@ Requirements:
 
 import uuid 
 
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, Response
 
 
 # initialize Flask server
@@ -41,12 +41,12 @@ todos = [
 @app.after_request
 def apply_cors_header(response):
     response.headers['Access-Control-Allow-Origin'] = '*'
-    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,DELETE'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,DELETE,PATCH'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type'
     return response
 
 # define endpoint for getting and deleting existing todo lists
-@app.route('/list/<list_id>', methods=['GET', 'DELETE'])
+@app.route('/list/<list_id>', methods=['GET', 'DELETE' 'PATCH'])
 def handle_list(list_id):
     # find todo list depending on given list id
     list_item = None
@@ -57,15 +57,25 @@ def handle_list(list_id):
     # if the given list id is invalid, return status code 404
     if not list_item:
         abort(404)
+    if request.json is None:
+            abort(500)
+    if request.method == 'PATCH':
+        print('Updating list')
+        for i in todo_lists:
+            if i['id'] == list_id:
+                todo_lists.remove(i)
+                todo_lists.append({'id': i['id'], 'name': request.json['name'], 'description': request.json['description']})
+                return jsonify([i for i in todo_lists if i['id'] == list_id])
     if request.method == 'GET':
         # find all todo entries for the todo list with the given id
         print('Returning todo list...')
-        return jsonify([i for i in todos if i['list'] == list_id])
+        return jsonify([i for i in todos if i['list'] == list_id]),200
     elif request.method == 'DELETE':
         # delete list with given id
         print('Deleting todo list...')
         todo_lists.remove(list_item)
-        return '', 200
+        return '', 200  
+    
 
 
 # define endpoint for adding a new list
@@ -78,13 +88,62 @@ def add_new_list():
     new_list['id'] = uuid.uuid4()
     todo_lists.append(new_list)
     return jsonify(new_list), 200
+#status 500, 400, 201
 
 
-# define endpoint for getting all lists
+@app.route('/list/<list_id>/item', methods=['POST'])
+def add_to_list(list_id):
+    # find todo list depending on given list id
+    list_item = None
+    for l in todo_lists:
+        if l['id'] == list_id:
+            list_item = l
+            break
+    # if the given list id is invalid, return status code 404
+    if not list_item:
+        abort(404)
+    if request.json is None:
+        abort(500)
+    if request.method == 'POST':
+        todos.append(create_list_item(str(uuid.uuid4()), request.json['name'], request.json['description'], list_item['id']))
+        print('Returning todo list...')
+        return jsonify([i for i in todos if i['list'] == list_id])
+    
+@app.route('/list/<list_id>/item/<item_id>', methods=['PATCH', 'DELETE'])
+def add_item_to_list(list_id, item_id):
+    # find todo list depending on given list id
+    list_item = None
+    for l in todo_lists:
+        if l['id'] == list_id:
+            list_item = l
+            break
+    # if the given list id is invalid, return status code 404
+    if not list_item:
+        abort(404)
+    if request.method == 'PATCH':
+        for i in todos:
+            if(i['id'] == item_id and i['list'] == list_id):
+                todos.remove(i)
+                todos.append(create_list_item(i['id'], request.json['name'], request.json['description'], list_item['id']))
+            else:
+                abort(500)        
+        return jsonify([i for i in todos if i['list'] == list_id]), 200
+    elif request.method == 'DELETE':
+        for t in todos:
+            if t['id'] == item_id:
+                todos.remove(t)
+                return Response(status= 200)
+            else: 
+                abort(500)
+    return abort(404)
+
 @app.route('/lists', methods=['GET'])
 def get_all_lists():
     return jsonify(todo_lists)
+#Todo 500
 
+def create_list_item(id, name, description, list_items):
+    return {'id': id, 'name': name, 'description': description, 'list': list_items}
 
 if __name__ == '__main__':
     # start Flask server
