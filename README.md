@@ -55,4 +55,4 @@ Von Ronja-Verena Uder und Lukas Gedrat
 Raspberry PI: 192.168.24.183  
 Gateway: 192.168.24.254  
 Dns: 192.168.24.254  
-# TODO aktuelles Python Dokument hochladen
+# TODO Python Dokument und Docker bearbeiten
