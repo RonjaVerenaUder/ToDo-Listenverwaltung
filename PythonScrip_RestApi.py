@@ -61,11 +61,10 @@ def handle_list(list_id):
             abort(500)
     if request.method == 'PATCH':
         print('Updating list')
-        for i in todo_lists:
-            if i['id'] == list_id:
-                todo_lists.remove(i)
-                todo_lists.append({'id': i['id'], 'name': request.json['name'], 'description': request.json['description']})
-                return jsonify([i for i in todo_lists if i['id'] == list_id])
+        new_list = request.get_json(force=True)
+        for key in new_list:
+            if (key == 'name'):
+                list[key] = new_list[key]
     if request.method == 'GET':
         # find all todo entries for the todo list with the given id
         print('Returning todo list...')
@@ -88,7 +87,6 @@ def add_new_list():
     new_list['id'] = uuid.uuid4()
     todo_lists.append(new_list)
     return jsonify(new_list), 200
-#status 500, 400, 201
 
 
 @app.route('/list/<list_id>/item', methods=['POST'])
@@ -102,8 +100,6 @@ def add_to_list(list_id):
     # if the given list id is invalid, return status code 404
     if not list_item:
         abort(404)
-    if request.json is None:
-        abort(500)
     if request.method == 'POST':
         todos.append(create_list_item(str(uuid.uuid4()), request.json['name'], request.json['description'], list_item['id']))
         print('Returning todo list...')
@@ -121,26 +117,22 @@ def add_item_to_list(list_id, item_id):
     if not list_item:
         abort(404)
     if request.method == 'PATCH':
-        for i in todos:
-            if(i['id'] == item_id and i['list'] == list_id):
-                todos.remove(i)
-                todos.append(create_list_item(i['id'], request.json['name'], request.json['description'], list_item['id']))
-            else:
-                abort(500)        
-        return jsonify([i for i in todos if i['list'] == list_id]), 200
+        newlist_item = request.get_json(force=True)
+        for key, value in newlist_item:
+            if (key == 'name' or key == 'description'):
+                list_item[key] = value
+        return jsonify(list_item), 200
     elif request.method == 'DELETE':
         for t in todos:
             if t['id'] == item_id:
                 todos.remove(t)
                 return Response(status= 200)
-            else: 
-                abort(500)
     return abort(404)
 
 @app.route('/lists', methods=['GET'])
 def get_all_lists():
     return jsonify(todo_lists)
-#Todo 500
+
 
 def create_list_item(id, name, description, list_items):
     return {'id': id, 'name': name, 'description': description, 'list': list_items}
