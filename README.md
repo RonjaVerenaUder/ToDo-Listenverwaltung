@@ -1,8 +1,7 @@
 # ToDo-Listenverwaltung
 Entwurf und Implementierung einer Rest-Schnittstelle mit Open Api
 Von Ronja-Verena Uder und Lukas Gedrat
-# Todo Deployment mit Docker  
-Erklärung zum Dockerfile  
+
 # Statische IP-Adresse auf Raspberry-Pi
 1. Mit Rasberry Pi verbinden:
 
@@ -56,7 +55,16 @@ Erklärung zum Dockerfile
    Der Befehl zum öffnen der Datei für den ssh Daemon lautet:  
    `sshd_config`  
    In der config Datei dann 'ferzugriff' als Benutzer hinzufügen:  
-   `AllowUsers fernzugriff`  
+   `AllowUsers fernzugriff`
+
+# Deployment mit Docker  
+1.Auf dem Raspberry das Projekt aus Git hinzufügen  
+   `git clone https://github.com/RonjaVerenaUder/ToDo-Listenverwaltung.git` 
+2. In das entsprechenden Directory wechseln: 
+   `cd ToDo-Listenverwaltung`
+3. Docker compose ausführen
+   `docker-compose up - d`
+4. Der Server sollte nun unter dem Port 5000 erreichbar sein.
 
 # IPs 
 Raspberry PI: 192.168.24.183  
