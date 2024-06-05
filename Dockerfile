@@ -10,7 +10,7 @@ EXPOSE 5000
 RUN pip install flask
 
 #Kopiere lokale Datei in das Container-Image
-COPY src/PythonScript_RestApi.py server.py
+COPY src/PythonScrip_RestApi.py server.py
 
 #Konfiguriere den Befehl, der im Container ausgeführt werden soll
 #(Anwendung Python + Skriptname als Parameter)
