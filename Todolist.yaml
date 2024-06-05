@@ -35,7 +35,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/TodoEntry'
+                  $ref: '#/components/schemas/TodoList'
         404:
           description: Invalid list id
           content: {}
@@ -87,7 +87,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/ToDoListName"
+              $ref: "#/components/schemas/TodoList"
         required: true
       responses:
         200:
@@ -116,7 +116,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ToDoListName'
+              $ref: '#/components/schemas/TodoList'
         required: true
       responses:
         201:
@@ -152,7 +152,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewTodoEntry'
+              $ref: '#/components/schemas/TodoEntry'
         required: true
       responses:
         201:
@@ -198,7 +198,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/NewTodoEntry'
+              $ref: '#/components/schemas/TodoEntry'
         required: true
       responses:
         200: 
@@ -261,7 +261,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/AllLists"     
+                  $ref: "#/components/schemas/TodoList"     
         429:
           description: Too Many Requests
           content: {}
@@ -276,41 +276,21 @@ components:
         id:
           type: string
           format: uuid
+          readOnly: true
         name:
           type: string
-    ToDoListName:
-      type: object
-      properties: 
-        name: 
-         type: string
     TodoEntry:
       type: object
       properties:
         id:
           type: string
           format: uuid
+          readOnly: true
         name:
           type: string
         description:
           type: string
-        user_id:
-          type: string
-          format: uuid
         list_id:
           type: string
           format: uuid
-    NewTodoEntry:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-    AllLists:
-      type: object
-      properties:
-        id:
-          type: string
-          format: uuid
-        listname:
-          type: string
+          readOnly: true
