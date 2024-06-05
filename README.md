@@ -58,13 +58,19 @@ Von Ronja-Verena Uder und Lukas Gedrat
    `AllowUsers fernzugriff`
 
 # Deployment mit Docker  
-1.Auf dem Raspberry das Projekt aus Git hinzufügen  
-   `git clone https://github.com/RonjaVerenaUder/ToDo-Listenverwaltung.git` 
-2. In das entsprechenden Directory wechseln: 
-   `cd ToDo-Listenverwaltung`
-3. Docker compose ausführen
-   `docker-compose up - d`
-4. Der Server sollte nun unter dem Port 5000 erreichbar sein.
+1. Auf dem Raspberry das Projekt aus Git hinzufügen  
+
+   `git clone https://github.com/RonjaVerenaUder/ToDo-Listenverwaltung.git`  
+
+2. In das entsprechenden Directory wechseln:  
+
+   `cd ToDo-Listenverwaltung`  
+
+3. Docker compose ausführen  
+
+   `docker-compose up - d`  
+
+4. Der Server sollte nun unter dem Port 5000 erreichbar sein.  
 
 # IPs 
 Raspberry PI: 192.168.24.183  
