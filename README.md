@@ -1,6 +1,8 @@
 # ToDo-Listenverwaltung
 Entwurf und Implementierung einer Rest-Schnittstelle mit Open Api
 Von Ronja-Verena Uder und Lukas Gedrat
+# Todo Deployment mit Docker  
+Erklärung zum Dockerfile  
 # Statische IP-Adresse auf Raspberry-Pi
 1. Mit Rasberry Pi verbinden:
 

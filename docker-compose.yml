@@ -1,0 +1,7 @@
+services:
+  toDoListe:
+    build: .
+    image: ToDoListe
+    restart: always
+    ports:
+      - "5000:5000"
